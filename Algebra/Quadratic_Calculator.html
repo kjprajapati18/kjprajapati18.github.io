@@ -1,0 +1,365 @@
+<html>
+<!-- The imports -->
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
+    <script>
+        window.onerror= function(){
+            alert("something is wrong, check your input");
+        }
+        
+        window.onload = function() {
+            document.getElementById("aV").focus();
+        };
+    </script>
+    
+<style>
+	header {
+		
+	}
+    body {
+        height: 400px;
+        width: 400px;
+        background-color: white;
+		overflow: hidden;
+    }
+    p {
+        text-align: center;
+    }
+	.userBoxVer {
+		height: 30px;
+		width:30px;
+	}
+	.userRadio{
+		padding: 0px 5px 0px 5px;
+	}
+	.bordered {
+		border: 2px solid;
+	}
+	button {
+		text-align: justified;
+        height: 40px;
+        width: 55px;
+	}
+    #int {
+        padding-top: 5px;
+        font-weight: bold;
+        
+    }
+    .fintex {
+        font-size: 12px;
+        
+    }
+    
+</style>
+
+    
+<header>
+    <title> Quadratics Calculator </title>
+	<center> <h2> Quadratic Calculator </h2> </center>
+	<hr>
+</header>    
+    
+<body>
+    
+    <script type="text/javascript">
+        
+        function Enter(event){
+            $(window).keydown(function(event){
+                if(event.keyCode == 13) {
+                    event.preventDefault();
+                    detectSolve();
+                }
+            });
+        }
+
+                
+        function toggleCalc() {
+            
+            if(document.getElementById("Vform").checked){
+                document.getElementById("VertexInput").style.display ="block";
+                document.getElementById("StandardInput").style.display ="none";
+            }
+            
+            if(document.getElementById("Sform").checked){
+                document.getElementById("StandardInput").style.display ="block";
+               document.getElementById("VertexInput").style.display ="none";
+            }
+            
+        }
+        
+        function detectSolve() {
+            
+            if(document.getElementById("Vform").checked){
+                vCalc();
+            } else if (document.getElementById("Sform").checked) {
+                sCalc();
+            } else {
+                alert("Something went wrong. Please exit and reopen the calculator.");
+            }
+            
+        }
+        
+        function vCalc() {
+            
+            var a1 = eval(document.getElementById("aV").value);
+            var h = eval(document.getElementById("h").value);
+            var k = eval(document.getElementById("k").value);
+            
+            var answer1;
+            var answer2;
+            
+            if(isNaN(a1) || isNaN(h) || isNaN(k)){
+                alert("Looks like you put something invalid");
+            } 
+            else if (a1 == 0){
+                if(k == 0){
+                    document.getElementById('int1').innerHTML = "Infinite # of intercepts";
+                    document.getElementById('int2').innerHTML = "This is a linear equation";
+                    
+                    document.getElementById("removable").style.display = "none";
+                    
+                    document.getElementById('sol1').innerHTML = "All real numbers are solutions";
+                    document.getElementById('sol2').innerHTML = "Line on X-axis";
+                } else {
+                    document.getElementById('int1').innerHTML = "No intercepts";
+                    document.getElementById('int2').innerHTML = "This is a linear equation";
+                    
+                    document.getElementById("removable").style.display = "none";
+                    
+                    document.getElementById('sol1').innerHTML = "No solutions";
+                    document.getElementById('sol2').innerHTML = "Line on Y = " + k;
+                }
+            } 
+            else if(-k/a1 < 0){
+                if (h == 0){
+                    answer1 = Math.sqrt(k/a1).toFixed(4);
+                    
+                    document.getElementById('int1').innerHTML = "( &plusmn;" +  answer1 + "i ,0)";
+                    document.getElementById('int2').innerHTML = "No real intercepts";
+                    
+                    document.getElementById("removable").style.display = "none";
+                    
+                    document.getElementById('sol1').innerHTML = "X = &plusmn;" + answer1 + "i";
+                    document.getElementById('sol2').innerHTML = "Two imaginary solutions";
+                } else {
+                    answer1 = Math.sqrt(k/a1).toFixed(4);
+                    
+                    document.getElementById('int1').innerHTML = "(" + h + " &plusmn; " +  answer1 + "i ,0)";
+                    document.getElementById('int2').innerHTML = "No real intercepts";
+                    
+                    document.getElementById("removable").style.display = "none";
+                    
+                    document.getElementById('sol1').innerHTML = "X = " + h + " &plusmn; " + answer1 + "i";
+                    document.getElementById('sol2').innerHTML = "Two imaginary solutions";
+                }  
+            }
+            else {
+                answer1 = (h + Math.sqrt(-k/a1)).toFixed(4);
+                answer2 = (h - Math.sqrt(-k/a1)).toFixed(4);
+                
+                if(answer1 == answer2){
+                    document.getElementById("int1").innerHTML = "(" + answer1 + ", 0)";
+                    document.getElementById("int2").innerHTML = "The vertex is on the axis (1 intercept)";
+                    
+                    document.getElementById("removable").style.display = "none";
+                    
+                    document.getElementById("sol1").innerHTML = "X = " + answer1;
+                    document.getElementById("sol2").innerHTML = "There is only 1 solution";
+                    
+                } 
+                else {
+                    document.getElementById("int1").innerHTML = "(" + answer1 + ", 0)";
+                    document.getElementById("int2").innerHTML = "(" + answer2 + ", 0)";
+                    
+                    document.getElementById("removable").style.display = "none";
+                    
+                    document.getElementById("sol1").innerHTML = "X = " + answer1 + " and " + answer2;
+                    document.getElementById("sol2").innerHTML = "There are 2 solutions";
+                    
+                }
+            }
+        }
+        
+         function sCalc(){
+            
+            var a2 = eval(document.getElementById("aS").value);
+            var b2 = eval(document.getElementById("b").value);
+            var c2 = eval(document.getElementById("c").value);
+            
+            var root1;
+            var root2;
+            if (isNaN(a2) || isNaN(b2) || isNaN(c2)) 
+                {   
+                    alert("Seems like you've inputted something incorrectly. Try a real number");
+                }
+            else if (a2 === 0 && b2 != 0 && c2 != 0)
+                {
+                    root1 = -c2/b2;
+                    document.getElementById('int1').innerHTML = "(" + root1 + ", 0)";
+                    document.getElementById('int2').innerHTML = "This is a linear equation";
+                    
+                    document.getElementById("removable").style.display = "none";
+                    
+                    document.getElementById('sol1').innerHTML = "There is only 1 solution";
+                    document.getElementById('sol2').innerHTML = "Slope is " + b2.value;
+                }
+            else if (b2 === 0 && a2 === 0 && c2 != 0)
+                 {
+                    document.getElementById('int1').innerHTML = "No intercepts";
+                    document.getElementById('int2').innerHTML = "This is a linear equation";
+                     
+                    document.getElementById("removable").style.display = "none";
+                    
+                    document.getElementById('sol1').innerHTML = "No solutions";
+                    document.getElementById('sol2').innerHTML = "Line is Y=" + c2.value; 
+                 }
+             else if (a2 === 0 && b2 === 0 && c2 === 0)
+                 {
+                     document.getElementById('int1').innerHTML = "Infinite # of intercepts";
+                     document.getElementById('int2').innerHTML = "This is a linear equation";
+                     
+                     document.getElementById("removable").style.display = "none";
+                     
+                     document.getElementById("sol1").innerHTML = "All real numbers are solutions.";
+                     document.getElementById("sol2").innerHTML = "Line on X-axis";
+                 }
+             else if ((Math.pow(b2,2) - 4*a2*c2) > 0)
+                {
+                    root1 = ((-1) * b2 + Math.sqrt((Math.pow(b2,2)) - 4 * a2 * c2)) / (2 * a2);
+                    root2 = ((-1) * b2 - Math.sqrt((Math.pow(b2,2)) - 4 * a2 * c2)) / (2 * a2);
+                    
+                    document.getElementById('int1').innerHTML = "(" + root1 + ",0)";
+                    document.getElementById('int2').innerHTML = "(" + root2 + ",0)";
+                    
+                    document.getElementById("removable").style.display = "none";
+                    
+                    document.getElementById("sol1").innerHTML = "X = " + root1.value + " and " + root2.value;
+                    document.getElementById("sol2").innerHTML = "There are 2 solutions."
+                }
+             else if ((Math.pow(b2,2) - 4*a2*c2) == 0)
+                {
+                    root1 = ((-1) * b2) / (2 * a2);
+                    
+                    
+                    document.getElementById('int1').innerHTML = "(" + root1 + ",0)";
+                    document.getElementById('int2').innerHTML = "The vertex is on the axis (1 solution)"
+                    
+                    document.getElementById("removable").style.display = "none";
+                    
+                    document.getElementById("sol1").innerHTML = "X = " + root1.value;
+                    document.getElementById("sol2").innerHTML = "There is 1 solution.";
+                }
+             else if ((Math.pow(b2,2) - 4*a2*c2) < 0)
+                {
+                    root1 = Math.sqrt(-1 *((Math.pow(b2,2)) - 4 * a2 * c2)) / (2 * a2);
+                    
+                    document.getElementById('int1').innerHTML = "(" + (-b2)/(2*a2) + " &plusmn" + root1 + "i,0)";
+                    document.getElementById('int2').innerHTML = "No real intercepts";
+                    
+                    document.getElementById("removable").style.display = "none";
+                    
+                    document.getElementById("sol1").innerHTML = "X = " + (-b2)/(2*a2) + " &plusmn " + root1 + "i";
+                    document.getElementById("sol2").innerHTML = "Two imaginary solutions."
+                }
+             
+         }
+             
+                
+        
+    </script>
+    
+    <form>
+        
+       <div id="VertexInput"> 
+               <b>
+                   <!-- this p element is just a really ugly code for writing the thing in vertex form -->
+                   <p style="font-size: 20px">
+                       Y = <input class="userBoxVer" type="text" id= "aV" onkeypress="Enter();"> (X - <input class="userBoxVer" type="text" id="h" onkeypress="Enter();"> )^2  + <input class="userBoxVer" type="text" id="k" onkeypress="Enter();">
+                   </p>
+               </b>
+        </div>
+        
+        <div id="StandardInput" style="display:none">
+            <!-- this p element is just a really ugly code for writing the thing in standard form -->
+            <b>   
+                <p style="font-size: 20px">
+                       Y = <input class="userBoxVer" type="text" id= "aS" onkeypress="Enter();"> X^2 + <input class="userBoxVer" type="text" id="b" onkeypress="Enter();"> X + <input class="userBoxVer" type="text" id="c" onkeypress="Enter();">
+                </p>
+            </b>
+        </div>
+        
+	<br>     
+	<div class="row bordered">
+		<div class="col-xs-6" style="border-right: 2px solid; text-align: center">
+            <input type="radio" id="Vform" name="quadForm" checked onclick="toggleCalc()"> Vertex
+		</div>
+		
+		<div class="col-xs-6" style="text-align:center">
+			<input type="radio" id="Sform" name="quadForm" onclick="toggleCalc()"> Standard 
+		</div>
+	</div>
+        
+    <script type="text/javascript" src="button.js"></script>    
+    
+	<div class="row">
+		<div class="col-xs-8 bordered" style="height:233px; border-top: 0px; text-align: center; padding-top: 15px">
+			<div>
+				<button type="button" id="DEL" onclick="Del()"> DEL </button>
+				<button type="button" id="(" onclick="lparen()"> ( </button>
+				<button type="button" id=")" onclick="rparen()"> ) </button>
+                <button type="button" id="/" onclick="()"> / </button>
+			</div>
+			
+			<div>
+				<button type="button" id="7" onclick="Seven()"> 7 </button>
+				<button type="button" id="8" onclick="Eight()"> 8 </button>
+				<button type="button" id="9" onclick="Nine()"> 9 </button>
+				<button type="button" id="*"> * </button>
+			</div>
+			
+			<div>
+				<button type="button" id="4" onclick="Four()"> 4 </button>
+				<button type="button" id="5" onclick="Five()"> 5 </button>
+				<button type="button" id="6" onclick="Six()"> 6 </button>
+				<button type="button" id="+"> + </button>
+			</div>
+            
+			<div>
+                <button type="button" id="1" onclick="One()"> 1 </button>
+			    <button type="button" id="2" onclick="Two()"> 2 </button>
+			    <button type="button" id="3" onclick="Three()"> 3 </button>
+				<button type="button" id="7"> - </button>
+            </div>
+               
+            <div>
+                <button type="button" id="0" onclick="Zero()"> 0 </button>
+			    <button type="button" id="." onclick="deci()"> . </button>
+                <button type="button" name="calc" style="width: 115px;" id="solve" onclick="detectSolve()"> Solve </button>
+            </div>
+			
+        </div>
+        
+		<div class="col-xs-4 bordered" style="height:233px; border-top: 0px">
+            
+            <center> <u> <p id="int"> Intercepts: </p> </u> </center>
+            <p class="fintex" id="int1"> </p>
+            <p class="fintex" id="int2"> </p>
+            <br id="removable">
+            <center> <u> <p id="int"> Solutions: </p> </u> </center>
+            <p class="fintex" id="sol1"> </p>
+            <p class="fintex" id="sol2"> </p>
+            
+		</div>
+        
+	</div>
+    </form>
+    
+</body>
+</html>
